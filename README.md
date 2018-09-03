@@ -1,2 +1,2 @@
 # Crack_In_The_Box
-Multi-threaded hash cracker for SHA-512
+Multi-threaded SHA-512 hash cracker
