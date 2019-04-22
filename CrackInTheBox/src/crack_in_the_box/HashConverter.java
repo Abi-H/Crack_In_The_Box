@@ -1,0 +1,56 @@
+/*************************************************************
+ *   Crack in the Box - Distributed SHA-512 Password Cracker *
+ *   Student ID: 2151241							         *
+ *************************************************************/
+
+package crack_in_the_box;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+public class HashConverter {
+
+	private static String algorithm = "SHA-512";
+
+	public static String getSHA512Hash(String password) {
+
+		try {
+			byte[] hash = new byte[64];
+
+			MessageDigest message = MessageDigest.getInstance(algorithm);
+
+			message.update(password.getBytes("iso-8859-1"), 0, password.length());
+			hash = message.digest();
+
+			return convertToHex(hash);
+
+		} catch (NoSuchAlgorithmException e) {
+			return "Invalid algorithm";
+		} catch (Exception e) {
+			return "Hash Converter Exception";
+		}
+	}
+	
+	private static String convertToHex(byte[] data) {
+
+		StringBuffer buffer = new StringBuffer();
+
+		for (int i = 0; i < data.length; i++) {
+
+			int nibble = (data[i] >>> 4) & 0x0F;
+			int fullByte = 0;
+
+			do {
+				if ((0 <= nibble) && (nibble <= 9)) {
+					buffer.append((char) ('0' + nibble));
+				} else {
+					buffer.append((char) ('a' + (nibble - 10)));
+				}
+					
+				nibble = data[i] & 0x0F;
+				
+			} while (fullByte++ < 1);
+		}
+		return buffer.toString();
+	}
+}
